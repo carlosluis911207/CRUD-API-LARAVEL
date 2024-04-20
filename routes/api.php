@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\TagController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +15,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+/* TAGS */
+Route::prefix('tags')->group(function () {
+    Route::get('/', [TagController::class, 'index']);
+    Route::post('store', [TagController::class, 'store']);
+    Route::post('{tag}/update', [TagController::class, 'update']);
+    Route::delete('{tag}/destroy', [TagController::class, 'destroy']);
 });
