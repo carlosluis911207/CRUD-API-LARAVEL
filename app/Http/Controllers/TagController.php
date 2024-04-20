@@ -27,8 +27,13 @@ class TagController extends BaseController
     }
 
 
-    public function show($id)
+    public function show($tag)
     {
+        try {
+            return $this->sendResponse(new TagResource($tag), __('messages.success_list_data'), 200);
+        } catch (Exception $e) {
+            return $this->sendError(__('messages.error_500'), $e->getMessage(), 400);
+        }
     }
 
     /**
