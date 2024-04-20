@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TagStoreRequest;
 use Exception;
 use Illuminate\Http\Request;
 use App\Repository\TagRepository;
 use App\Http\Resources\TagResource;
+use App\Models\Tag;
 
 class TagController extends BaseController
 {
@@ -27,7 +29,7 @@ class TagController extends BaseController
     }
 
 
-    public function show($tag)
+    public function show(Tag $tag)
     {
         try {
             return $this->sendResponse(new TagResource($tag), __('messages.success_list_data'), 200);
@@ -39,21 +41,41 @@ class TagController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TagStoreRequest $request)
     {
+        try {
+            $tag = $this->tagRepository->create($request->all());
+            return $this->sendResponse(new TagResource($tag), __('messages.success_store_data'), 200);
+        } catch (Exception $e) {
+            return $this->sendError(__('messages.error_500'), $e->getMessage(), 400);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Tag $tag, Request $request)
     {
+        try {
+            $data = $request->all();
+            $this->tagRepository->update($tag, $data);
+
+            return $this->sendResponse(new TagResource($tag), __('messages.success_store_data'), 200);
+        } catch (Exception $e) {
+            return $this->sendError(__('messages.error_500'), $e->getMessage(), 400);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Tag $tag)
     {
+        try {
+            $this->tagRepository->delete($tag);
+            return $this->sendResponse(null, __('messages.success_delete_data'), 200);
+        } catch (Exception $e) {
+            return $this->sendError(__('messages.error_500'), $e->getMessage(), 400);
+        }
     }
 }
