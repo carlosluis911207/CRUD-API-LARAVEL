@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TagStoreRequest;
+use App\Http\Requests\TagUpdateRequest;
 use Exception;
 use Illuminate\Http\Request;
 use App\Repository\TagRepository;
@@ -54,7 +55,7 @@ class TagController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Tag $tag, Request $request)
+    public function update(Tag $tag, TagUpdateRequest $request)
     {
         try {
             $data = $request->all();

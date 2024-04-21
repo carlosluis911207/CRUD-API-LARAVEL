@@ -25,6 +25,6 @@ Route::prefix('tags')->group(function () {
     Route::get('/', [TagController::class, 'index']);
     Route::get('/{tag}', [TagController::class, 'show']);
     Route::post('store', [TagController::class, 'store']);
-    Route::post('{tag}/update', [TagController::class, 'update']);
-    Route::delete('{tag}/destroy', [TagController::class, 'destroy']);
+    Route::put('{tag}', [TagController::class, 'update']);
+    Route::delete('{tag}', [TagController::class, 'destroy']);
 });
